@@ -33,5 +33,5 @@
 *.su
 
 # Text files
-.dat
-.txt
+*.dat
+*.txt
