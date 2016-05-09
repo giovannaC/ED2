@@ -1,3 +1,5 @@
+#include "string.h"
+
 typedef struct post{
 	char text[150];
 	char user[50];
@@ -47,9 +49,9 @@ void listar(FILE* file){
 	post lpost;
 	fseek(file, 0, 0);
 	
-	int recNo = 1;
+	int RRN = 0;
 	while(fread(&lpost, sizeof(post), 1, file) > 0){
-		printf("***** Registro %d *****\n", recNo);
+		printf("***** Registro %d *****\n", RRN);
 		printf("Texto: %s\n", lpost.text);
 		printf("Usuario: %s\n", lpost.user);
 		printf("Coordenadas: %s\n", lpost.coordinates);
@@ -60,6 +62,64 @@ void listar(FILE* file){
 		
 		printf("\n");
 		
-		recNo++;
+		RRN++;
 	}
+}
+
+void buscarUser(FILE* file){
+	post lpost;
+	char find[50];
+	
+	fseek(file, 0 , 0);
+	
+	fflush(stdin);
+	printf("\n\nInsira o usuario para buscar\n");
+	gets(&find);
+	
+	int achou = 0;
+	int RRN = 0;
+	while(fread(&lpost, sizeof(post), 1, file) > 0){
+		if (strcmp(lpost.user, find) == 0){
+		   achou = 1;
+		   break;
+	    }
+	    
+	    RRN++;
+	}
+	
+	if(achou){
+	    printf("\n***** Registro %d *****\n", RRN);
+		printf("Texto: %s\n", lpost.text);
+		printf("Usuario: %s\n", lpost.user);
+		printf("Coordenadas: %s\n", lpost.coordinates);
+		printf("Likes: %d\n", lpost.like_count);
+		printf("Linguagem: %s\n", lpost.language);
+		printf("Compartilhamentos: %d\n", lpost.share_count);
+		printf("Views: %d\n", lpost.views_count);		
+	}
+	else
+	    printf("\nRegistro nao encontrado\n");
+}
+
+void buscarRRN(FILE* file){
+	post lpost;
+	int find=-1;
+	
+	printf("\n\nInsira o RRN para buscar\n");
+	scanf("%d", &find);
+	
+	fseek(file, find * sizeof(post), 0);
+	
+	if(fread(&lpost, sizeof(post), 1, file) > 0){
+	    printf("\n***** Registro %d *****\n", find);
+		printf("Texto: %s\n", lpost.text);
+		printf("Usuario: %s\n", lpost.user);
+		printf("Coordenadas: %s\n", lpost.coordinates);
+		printf("Likes: %d\n", lpost.like_count);
+		printf("Linguagem: %s\n", lpost.language);
+		printf("Compartilhamentos: %d\n", lpost.share_count);
+		printf("Views: %d\n", lpost.views_count);		
+	}
+	else
+	    printf("\nRegistro nao encontrado\n");
 }
