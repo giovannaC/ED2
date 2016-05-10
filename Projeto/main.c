@@ -1,6 +1,8 @@
 #include "stdio.h"
 #include "myFile.h"
 
+
+//Função para printar interface
 void printInterface(){
 	printf("|--------------------------|\n");
 	printf("|1- Inserir novo registro  |\n");
@@ -12,6 +14,9 @@ void printInterface(){
 	printf("|--------------------------|\n");
 }
 
+
+//Utiliza função para inserir
+//Pergunta ao usuário se deseja continuar inserindo após cada iteração
 void inserirVarios(FILE* file){
 	int op = 0;
 	do{
@@ -32,6 +37,7 @@ int main(){
 	    printInterface();
 	    scanf("%d", &op);
 	
+	    //Lê opção do usuário
 	    switch(op){
 	        case 1: inserirVarios(file);
 		            break;

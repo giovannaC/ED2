@@ -1,5 +1,6 @@
 #include "string.h"
 
+//Registro que guarda informações do post
 typedef struct post{
 	char text[150];
 	char user[50];
@@ -10,10 +11,12 @@ typedef struct post{
 	int views_count;
 } post;
 
+//Função responsável de inserir os dados de post no arquivo
 void inserir(FILE* file){
 	post lpost;
 	printf("\n\n");
 
+    //Realiza leitura de dados do post a partir do teclado
 	fflush(stdin);
 	printf("Insira o texto do post\n");
 	gets(&lpost.text);
@@ -42,6 +45,7 @@ void inserir(FILE* file){
 	printf("Insira a contagem de visualizacoes do post\n");
 	scanf("%d", &lpost.views_count);
 
+    //Escreve registro no arquivo
 	fwrite(&lpost, sizeof(post), 1, file);
 }
 // 3)
@@ -49,8 +53,13 @@ void listar(FILE* file){
 	post lpost;
 	fseek(file, 0, 0);
 
+    //Variável para contagem do RRN
 	int RRN = 0;
+	
+	//Enquanto houver dados no arquivo, ler para o registro
 	while(fread(&lpost, sizeof(post), 1, file) > 0){
+		
+		//Imprime registro na tela
 		printf("***** Registro %d *****\n", RRN);
 		printf("Texto: %s\n", lpost.text);
 		printf("Usuario: %s\n", lpost.user);
@@ -72,13 +81,22 @@ void buscarUser(FILE* file){
 
 	fseek(file, 0 , 0);
 
+    //Realiza leitura de qual usuario buscar a partir do teclado
 	fflush(stdin);
 	printf("\n\nInsira o usuario para buscar\n");
 	gets(&find);
 
+
+    //Variável lógica para indicar se encontrou o usuário buscado
 	int achou = 0;
+	
+	//Variável para contagem do RRN
 	int RRN = 0;
+	
+	//Laço nos dados do arquivo
 	while(fread(&lpost, sizeof(post), 1, file) > 0){
+		
+		//Se o usuário que está sendo lido é igual ao informado, muda valor da variável para 1 e sai do laço
 		if (strcmp(lpost.user, find) == 0){
 		   achou = 1;
 		   break;
@@ -87,6 +105,7 @@ void buscarUser(FILE* file){
 	    RRN++;
 	}
 
+    //Se a busca encontrou usuário, imprime. Senão, mostra mensagem de que não encontrou
 	if(achou){
 	    printf("\n***** Registro %d *****\n", RRN);
 		printf("Texto: %s\n", lpost.text);
@@ -103,13 +122,19 @@ void buscarUser(FILE* file){
 // 4)
 void buscarRRN(FILE* file){
 	post lpost;
+	
+	//Variável para ler o RRN a partir do teclado
 	int find=-1;
-
+    
+    //Realiza leitura do RNN para buscar a partir do teclado
 	printf("\n\nInsira o RRN para buscar\n");
 	scanf("%d", &find);
 
-	fseek(file, find * sizeof(post), 0);
 
+    //Usa o RRN para dar um seek no arquivo e localizar o registro em questão
+	fseek(file, find * sizeof(post), 0);
+	
+	//Se a busca encontrou usuário, imprime. Senão, mostra mensagem de que não encontrou
 	if(fread(&lpost, sizeof(post), 1, file) > 0){
 	    printf("\n***** Registro %d *****\n", find);
 		printf("Texto: %s\n", lpost.text);
