@@ -9,6 +9,7 @@ void printInterface(){
 	printf("|2- Listar registros       |\n");
 	printf("|3- Buscar por RRN         |\n");
 	printf("|4- Buscar por User        |\n");
+	printf("|5- Remover registro       |\n");
 	printf("|--------------------------|\n");
 	printf("|0- Sair                   |\n");
 	printf("|--------------------------|\n");
@@ -31,7 +32,10 @@ void inserirVarios(FILE* file){
 int main(){
 	int op = 0;
 	
-	FILE* file = fopen("file.dat", "a+");
+	FILE* file = fopen("file.dat", "r+");
+	
+	if(!file)
+	   file = fopen("file.dat", "w+");
 	
 	while(1){
 	    printInterface();
@@ -49,6 +53,9 @@ int main(){
 		            break;
 		            
 		    case 4: buscarUser(file);
+		            break;
+		            
+		    case 5: remover(file);
 		            break;
 		        
 		    case 0: exit(0);

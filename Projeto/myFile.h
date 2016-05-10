@@ -2,8 +2,8 @@
 
 //Registro que guarda informações do post
 typedef struct post{
-	char text[150];
 	char user[50];
+	char text[150];
 	char coordinates[20];
 	int like_count;
 	char language[30];
@@ -59,17 +59,19 @@ void listar(FILE* file){
 	//Enquanto houver dados no arquivo, ler para o registro
 	while(fread(&lpost, sizeof(post), 1, file) > 0){
 		
-		//Imprime registro na tela
-		printf("***** Registro %d *****\n", RRN);
-		printf("Texto: %s\n", lpost.text);
-		printf("Usuario: %s\n", lpost.user);
-		printf("Coordenadas: %s\n", lpost.coordinates);
-		printf("Likes: %d\n", lpost.like_count);
-		printf("Linguagem: %s\n", lpost.language);
-		printf("Compartilhamentos: %d\n", lpost.share_count);
-		printf("Views: %d\n", lpost.views_count);
-
-		printf("\n");
+		if(strcmp(lpost.user, "*") != 0){ //Se não está removido
+			//Imprime registro na tela
+			printf("***** Registro %d *****\n", RRN);
+			printf("Texto: %s\n", lpost.text);
+			printf("Usuario: %s\n", lpost.user);
+			printf("Coordenadas: %s\n", lpost.coordinates);
+			printf("Likes: %d\n", lpost.like_count);
+			printf("Linguagem: %s\n", lpost.language);
+			printf("Compartilhamentos: %d\n", lpost.share_count);
+			printf("Views: %d\n", lpost.views_count);
+	
+			printf("\n");
+	    }
 
 		RRN++;
 	}
@@ -85,7 +87,6 @@ void buscarUser(FILE* file){
 	fflush(stdin);
 	printf("\n\nInsira o usuario para buscar\n");
 	gets(&find);
-
 
     //Variável lógica para indicar se encontrou o usuário buscado
 	int achou = 0;
@@ -107,14 +108,16 @@ void buscarUser(FILE* file){
 
     //Se a busca encontrou usuário, imprime. Senão, mostra mensagem de que não encontrou
 	if(achou){
-	    printf("\n***** Registro %d *****\n", RRN);
-		printf("Texto: %s\n", lpost.text);
-		printf("Usuario: %s\n", lpost.user);
-		printf("Coordenadas: %s\n", lpost.coordinates);
-		printf("Likes: %d\n", lpost.like_count);
-		printf("Linguagem: %s\n", lpost.language);
-		printf("Compartilhamentos: %d\n", lpost.share_count);
-		printf("Views: %d\n", lpost.views_count);
+		if(strcmp(lpost.user, "*") != 0){ //Se não está removido
+		    printf("\n***** Registro %d *****\n", RRN);
+			printf("Texto: %s\n", lpost.text);
+			printf("Usuario: %s\n", lpost.user);
+			printf("Coordenadas: %s\n", lpost.coordinates);
+			printf("Likes: %d\n", lpost.like_count);
+			printf("Linguagem: %s\n", lpost.language);
+			printf("Compartilhamentos: %d\n", lpost.share_count);
+			printf("Views: %d\n", lpost.views_count);
+	    }
 	}
 	else
 	    printf("\nRegistro nao encontrado\n");
@@ -136,15 +139,46 @@ void buscarRRN(FILE* file){
 	
 	//Se a busca encontrou usuário, imprime. Senão, mostra mensagem de que não encontrou
 	if(fread(&lpost, sizeof(post), 1, file) > 0){
-	    printf("\n***** Registro %d *****\n", find);
-		printf("Texto: %s\n", lpost.text);
-		printf("Usuario: %s\n", lpost.user);
-		printf("Coordenadas: %s\n", lpost.coordinates);
-		printf("Likes: %d\n", lpost.like_count);
-		printf("Linguagem: %s\n", lpost.language);
-		printf("Compartilhamentos: %d\n", lpost.share_count);
-		printf("Views: %d\n", lpost.views_count);
+		if(strcmp(lpost.user, "*") != 0){ //Se não está removido
+		    printf("\n***** Registro %d *****\n", find);
+			printf("Texto: %s\n", lpost.text);
+			printf("Usuario: %s\n", lpost.user);
+			printf("Coordenadas: %s\n", lpost.coordinates);
+			printf("Likes: %d\n", lpost.like_count);
+			printf("Linguagem: %s\n", lpost.language);
+			printf("Compartilhamentos: %d\n", lpost.share_count);
+			printf("Views: %d\n", lpost.views_count);
+	    }
 	}
 	else
 	    printf("\nRegistro nao encontrado\n");
+}
+
+void remover(FILE* file){
+	post lpost;
+	
+	//Variável para ler o RRN a partir do teclado
+	int find=-1;
+    
+    //Realiza leitura do RNN para buscar a partir do teclado
+	printf("\n\nInsira o RRN para buscar\n");
+	scanf("%d", &find);
+
+
+    //Usa o RRN para dar um seek no arquivo e localizar o registro em questão
+	fseek(file, find * sizeof(post), 0);
+	
+	//Se a busca encontrou usuário, remove. Senão, mostra mensagem de que não encontrou
+	if(fread(&lpost, sizeof(post), 1, file) > 0){
+		//Marca usuário com simbolo especial para informar remoção
+	    strcpy(lpost.user, "*");
+	    fseek(file, find * sizeof(post), 0);
+	    
+	    //Escreve registro no arquivo
+	    fwrite(&lpost, sizeof(post), 1, file);
+	    
+	    printf("\nRegistro removido com sucesso\n");
+	}
+	else
+	    printf("\nRegistro nao encontrado\n");	
 }
