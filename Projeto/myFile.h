@@ -62,13 +62,7 @@ void listar(FILE* file){
 		if(strcmp(lpost.user, "*") != 0){ //Se não está removido
 			//Imprime registro na tela
 			printf("***** Registro %d *****\n", RRN);
-			printf("Texto: %s\n", lpost.text);
-			printf("Usuario: %s\n", lpost.user);
-			printf("Coordenadas: %s\n", lpost.coordinates);
-			printf("Likes: %d\n", lpost.like_count);
-			printf("Linguagem: %s\n", lpost.language);
-			printf("Compartilhamentos: %d\n", lpost.share_count);
-			printf("Views: %d\n", lpost.views_count);
+			printPost(lpost);
 	
 			printf("\n");
 	    }
@@ -110,13 +104,7 @@ void buscarUser(FILE* file){
 	if(achou){
 		if(strcmp(lpost.user, "*") != 0){ //Se não está removido
 		    printf("\n***** Registro %d *****\n", RRN);
-			printf("Texto: %s\n", lpost.text);
-			printf("Usuario: %s\n", lpost.user);
-			printf("Coordenadas: %s\n", lpost.coordinates);
-			printf("Likes: %d\n", lpost.like_count);
-			printf("Linguagem: %s\n", lpost.language);
-			printf("Compartilhamentos: %d\n", lpost.share_count);
-			printf("Views: %d\n", lpost.views_count);
+			printPost(lpost);
 	    }
 	}
 	else
@@ -141,13 +129,7 @@ void buscarRRN(FILE* file){
 	if(fread(&lpost, sizeof(post), 1, file) > 0){
 		if(strcmp(lpost.user, "*") != 0){ //Se não está removido
 		    printf("\n***** Registro %d *****\n", find);
-			printf("Texto: %s\n", lpost.text);
-			printf("Usuario: %s\n", lpost.user);
-			printf("Coordenadas: %s\n", lpost.coordinates);
-			printf("Likes: %d\n", lpost.like_count);
-			printf("Linguagem: %s\n", lpost.language);
-			printf("Compartilhamentos: %d\n", lpost.share_count);
-			printf("Views: %d\n", lpost.views_count);
+			printPost(lpost);
 	    }
 	}
 	else
@@ -181,4 +163,14 @@ void remover(FILE* file){
 	}
 	else
 	    printf("\nRegistro nao encontrado\n");	
+}
+
+void printPost(post lpost){
+	printf("Texto: %s\n", lpost.text);
+	printf("Usuario: %s\n", lpost.user);
+	printf("Coordenadas: %s\n", lpost.coordinates);
+	printf("Likes: %d\n", lpost.like_count);
+	printf("Linguagem: %s\n", lpost.language);
+	printf("Compartilhamentos: %d\n", lpost.share_count);
+	printf("Views: %d\n", lpost.views_count);
 }
