@@ -37,7 +37,7 @@ void inserir(FILE* file){
 	post lpost;
 	printf("\n\n");
 
-  //Realiza leitura de dados do post a partir do teclado
+    //Realiza leitura de dados do post a partir do teclado
 	fflush(stdin);
 	printf("Insira o texto do post\n");
 	gets(lpost.text);
@@ -159,6 +159,7 @@ void buscarRRN(FILE* file){
 
 void remover(FILE* file){
 	post lpost;
+	fseek(file, 0, 0);
 
     fread(&dispo, sizeof(dispo), 1, file);
 	if(dispo == -1)
@@ -195,12 +196,10 @@ void remover(FILE* file){
 }
 
 //atualiza dispo no arquivo e na variavel, ATENCAO: posiciona ponteiro no inicio do arquivo
-void atualizaDispo(FILE *file, int rrn){
+void atualizaDispo(FILE *file, int rrn){	
 	dispo = rrn;
 	fseek(file, 0, 0);
 	fwrite(&rrn, sizeof(rrn), 1, file);
-	
-	printf("\nDISPO: %d\n", dispo);
 }
 
 // posicao considerando a dispo no inicio do arquivo

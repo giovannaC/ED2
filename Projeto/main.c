@@ -22,8 +22,6 @@ int main(){
 
 	if(!file)
 	   file = fopen("file.dat", "w+");
-	   
-    fread(&dispo, sizeof(dispo), 1, 0);
 
 	while(1){
 	    printInterface();
