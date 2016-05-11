@@ -1,10 +1,10 @@
-/* TRABALHO PRÃTICO I - Estrutura de Dados 2
-    UNESP - CiÃªncias da ComputaÃ§Ã£o - Noturno
+/* TRABALHO PRÁTICO I - Estrutura de Dados 2
+    UNESP - Ciências da Computação - Noturno
     Data de entraga do trabalho 11/05/2016
-    Autores: Bruno Vedoveto Leandro            RA:
+    Autores: Bruno Vedoveto Leandro            RA: 141152869
              Giovanna Cazelato Pires           RA: 141151171
-             Wesley Otto Garcia Utsunomiya     RA:
-             Jonathan Henrique de Oliveira     RA:
+             Wesley Otto Garcia Utsunomiya     RA: 141152346
+             Jonathan Henrique de Oliveira     RA: 141152206
 
 */
 
@@ -12,7 +12,7 @@
 #include "myFile.h"
 #include "stdlib.h"
 
-//Funï¿½ï¿½o para printar interface
+//Função para printar interface
 void printInterface(){
 	printf("|--------------------------|\n");
 	printf("|1- Inserir novo registro  |\n");
@@ -33,13 +33,11 @@ int main(){
 	if(!file)
 	   file = fopen("file.dat", "w+");
 
-    fread(&dispo, sizeof(dispo), 1, 0);
-
 	while(1){
 	    printInterface();
 	    scanf("%d", &op);
 
-	    //Lï¿½ opï¿½ï¿½o do usuï¿½rio
+	    //Lista opções do usuário
 	    switch(op){
 	        case 1: system("cls");
 					inserirVarios(file);
