@@ -2,14 +2,16 @@
 
 //Registro que guarda informações do post
 typedef struct post{
-	char user[50];
+	char user[50]; //Preenchido com * quando registro for excluido
 	char text[150];
 	char coordinates[20];
-	int like_count;
+	int like_count; //Utilizado para manter a dispo se o registro estiver excluido
 	char language[30];
 	int share_count;
 	int views_count;
 } post;
+
+int dispo = -1;
 
 //Função responsável de inserir os dados de post no arquivo
 void inserir(FILE* file){
@@ -45,6 +47,17 @@ void inserir(FILE* file){
 	printf("Insira a contagem de visualizacoes do post\n");
 	scanf("%d", &lpost.views_count);
 
+    //Se existe valor excluído utiliza espaço para gravar, senão vai para fim de arquivo
+    if(dispo > -1){
+       fseek(file, dispo * sizeof(post), 0);
+       post auxPost;
+       fread(&auxPost, sizeof(post), 1, file);
+       dispo = auxPost.like_count;
+       fseek(file, auxPost.like_count * sizeof(post), 0);
+    }
+    else
+       fseek(file, 0, 2);
+
     //Escreve registro no arquivo
 	fwrite(&lpost, sizeof(post), 1, file);
 }
@@ -59,13 +72,13 @@ void listar(FILE* file){
 	//Enquanto houver dados no arquivo, ler para o registro
 	while(fread(&lpost, sizeof(post), 1, file) > 0){
 		
-		if(strcmp(lpost.user, "*") != 0){ //Se não está removido
+	//	if(strcmp(lpost.user, "*") != 0){ //Se não está removido
 			//Imprime registro na tela
 			printf("***** Registro %d *****\n", RRN);
 			printPost(lpost);
 	
 			printf("\n");
-	    }
+	//  }
 
 		RRN++;
 	}
@@ -140,7 +153,7 @@ void remover(FILE* file){
 	post lpost;
 	
 	//Variável para ler o RRN a partir do teclado
-	int find=-1;
+	int find = -1;
     
     //Realiza leitura do RNN para buscar a partir do teclado
 	printf("\n\nInsira o RRN para buscar\n");
@@ -154,6 +167,11 @@ void remover(FILE* file){
 	if(fread(&lpost, sizeof(post), 1, file) > 0){
 		//Marca usuário com simbolo especial para informar remoção
 	    strcpy(lpost.user, "*");
+	    
+	    //Armazena valor atual da dispo no registro e atualiza topo da dispo
+	    lpost.like_count = dispo;
+	    dispo = find;
+	    
 	    fseek(file, find * sizeof(post), 0);
 	    
 	    //Escreve registro no arquivo

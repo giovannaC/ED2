@@ -65,6 +65,5 @@ int main(){
     }
 	
 	getch();
-
 	close(file);
 }
