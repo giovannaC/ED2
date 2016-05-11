@@ -2,7 +2,7 @@
 #include "myFile.h"
 #include "stdlib.h"
 
-//Funï¿½ï¿½o para printar interface
+//Função para printar interface
 void printInterface(){
 	printf("|--------------------------|\n");
 	printf("|1- Inserir novo registro  |\n");
@@ -29,7 +29,7 @@ int main(){
 	    printInterface();
 	    scanf("%d", &op);
 
-	    //Lï¿½ opï¿½ï¿½o do usuï¿½rio
+	    //Lista opções do usuário
 	    switch(op){
 	        case 1: system("cls");
 					inserirVarios(file);
