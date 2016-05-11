@@ -15,7 +15,7 @@ int dispo = -1;
 
 //Utiliza fun��o para inserir
 //Pergunta ao usu�rio se deseja continuar inserindo ap�s cada itera��o
-void inserirVarios(FILE* file){
+void inserirVarios(FILE*file){
 	int op = 0;
 	fseek(file, 0, 0);
 
@@ -67,15 +67,17 @@ void inserir(FILE* file){
 	scanf("%d", &lpost.views_count);
 
     //Se existe valor exclu�do utiliza espa�o para gravar, sen�o vai para fim de arquivo
-    if(dispo > -1){
+    if(dispo != -1){
 			 int temp = dispo;
        post auxPost;
        fread(&auxPost, sizeof(post), 1, file);
        atualizaDispo(file, auxPost.like_count);
 			 fseek(file, posicaoRRN(temp), 0);
     }
-    else
-       fseek(file, 0, 2);
+    else{
+    	 fseek(file, 0, 2);
+	}
+      
 
     //Escreve registro no arquivo
 	fwrite(&lpost, sizeof(post), 1, file);
@@ -90,14 +92,8 @@ void listar(FILE* file){
 
 	//Enquanto houver dados no arquivo, ler para o registro
 	while(fread(&lpost, sizeof(post), 1, file) > 0){
-
-	//	if(strcmp(lpost.user, "*") != 0){ //Se n�o est� removido
-			//Imprime registro na tela
-			printf("***** Registro %d *****\n", RRN);
-			printPost(lpost);
-
-			printf("\n");
-	//  }
+		//Imprime registro na tela
+		printPost(lpost, RRN);
 
 		RRN++;
 	}
@@ -133,12 +129,8 @@ void buscarUser(FILE* file){
 	}
 
     //Se a busca encontrou usu�rio, imprime. Sen�o, mostra mensagem de que n�o encontrou
-	if(achou){
-		if(strcmp(lpost.user, "*") != 0){ //Se n�o est� removido
-		    printf("\n***** Registro %d *****\n", RRN);
-			printPost(lpost);
-	    }
-	}
+	if(achou)
+		printPost(lpost, RRN);
 	else
 	    printf("\nRegistro nao encontrado\n");
 }
@@ -158,12 +150,8 @@ void buscarRRN(FILE* file){
 	fseek(file, posicaoRRN(find), 0);
 
 	//Se a busca encontrou usu�rio, imprime. Sen�o, mostra mensagem de que n�o encontrou
-	if(fread(&lpost, sizeof(post), 1, file) > 0){
-		if(strcmp(lpost.user, "*") != 0){ //Se n�o est� removido
-		    printf("\n***** Registro %d *****\n", find);
-			printPost(lpost);
-	    }
-	}
+	if(fread(&lpost, sizeof(post), 1, file) > 0)
+		printPost(lpost, find);
 	else
 	    printf("\nRegistro nao encontrado\n");
 }
@@ -211,15 +199,19 @@ void atualizaDispo(FILE *file, int rrn){
 
 // posicao considerando a dispo no inicio do arquivo
 int posicaoRRN(int rrn){
-	return rrn * sizeof(post) + sizeof(dispo);
+	return ((rrn * sizeof(post)) + sizeof(dispo));
 }
 
-void printPost(post lpost){
-	printf("Texto: %s\n", lpost.text);
-	printf("Usuario: %s\n", lpost.user);
-	printf("Coordenadas: %s\n", lpost.coordinates);
-	printf("Likes: %d\n", lpost.like_count);
-	printf("Linguagem: %s\n", lpost.language);
-	printf("Compartilhamentos: %d\n", lpost.share_count);
-	printf("Views: %d\n", lpost.views_count);
+void printPost(post lpost, int RRN){
+	if(strcmp(lpost.user, "*") != 0){ //Se n�o est� removido
+		printf("\n***** Registro %d *****\n", RRN);
+		printf("Texto: %s\n", lpost.text);
+		printf("Usuario: %s\n", lpost.user);
+		printf("Coordenadas: %s\n", lpost.coordinates);
+		printf("Likes: %d\n", lpost.like_count);
+		printf("Linguagem: %s\n", lpost.language);
+		printf("Compartilhamentos: %d\n", lpost.share_count);
+		printf("Views: %d\n", lpost.views_count);
+		printf("\n");
+    }
 }

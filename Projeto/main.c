@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "myFile.h"
-
+#include "stdlib.h"
 
 //Fun��o para printar interface
 void printInterface(){
@@ -22,6 +22,8 @@ int main(){
 
 	if(!file)
 	   file = fopen("file.dat", "w+");
+	   
+    fread(&dispo, sizeof(dispo), 1, 0);
 
 	while(1){
 	    printInterface();
@@ -29,19 +31,24 @@ int main(){
 
 	    //L� op��o do usu�rio
 	    switch(op){
-	        case 1: inserirVarios(file);
+	        case 1: system("cls");
+					inserirVarios(file);
 		            break;
 
-		    case 2: listar(file);
+		    case 2: system("cls");
+					listar(file);
 		            break;
 
-		    case 3: buscarRRN(file);
+		    case 3: system("cls");
+					buscarRRN(file);
 		            break;
 
-		    case 4: buscarUser(file);
+		    case 4: system("cls");
+				    buscarUser(file);
 		            break;
 
-		    case 5: remover(file);
+		    case 5: system("cls");
+					remover(file);
 		            break;
 
 		    case 0: exit(0);
