@@ -1,3 +1,13 @@
+/* TRABALHO PRÁTICO I - Estrutura de Dados 2
+    UNESP - Ciências da Computação - Noturno
+    Data de entraga do trabalho 11/05/2016
+    Autores: Bruno Vedoveto Leandro            RA:
+             Giovanna Cazelato Pires           RA: 141151171
+             Wesley Otto Garcia Utsunomiya     RA:
+             Jonathan Henrique de Oliveira     RA:
+
+*/
+
 #include "stdio.h"
 #include "myFile.h"
 #include "stdlib.h"
@@ -22,7 +32,7 @@ int main(){
 
 	if(!file)
 	   file = fopen("file.dat", "w+");
-	   
+
     fread(&dispo, sizeof(dispo), 1, 0);
 
 	while(1){
