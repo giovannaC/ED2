@@ -1,3 +1,13 @@
+/* TRABALHO PRÁTICO I - Estrutura de Dados 2
+    UNESP - Ciências da Computação - Noturno
+    Data de entraga do trabalho 11/05/2016
+    Autores: Bruno Vedoveto Leandro            RA: 141152869
+             Giovanna Cazelato Pires           RA: 141151171
+             Wesley Otto Garcia Utsunomiya     RA:
+             Jonathan Henrique de Oliveira     RA:
+
+*/
+
 #include "stdio.h"
 #include "myFile.h"
 #include "stdlib.h"

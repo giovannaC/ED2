@@ -1,6 +1,6 @@
 #include "string.h"
 
-//Registro que guarda informações do post
+//Registro que guarda informaÃ§Ãµes do post
 typedef struct post{
 	char user[50]; //Preenchido com * quando registro for excluido
 	char text[150];
@@ -15,6 +15,8 @@ int dispo = -1;
 
 //Utiliza função para inserir
 //Pergunta ao usuário se deseja continuar inserindo após cada iteração
+// 2) Não há uma condição de parada de fato, mas ainda sim há uma opção de parar de adicionar arquivos.
+//      Desse modo o programa fica mais fácil para o usuário.
 void inserirVarios(FILE*file){
 	int op = 0;
 	fseek(file, 0, 0);
@@ -33,6 +35,7 @@ void inserirVarios(FILE*file){
 }
 
 //Função responsável de inserir os dados de post no arquivo
+// 7) Insere os registros em espaÃ§o vazio se houver.
 void inserir(FILE* file){
 	post lpost;
 	printf("\n\n");
@@ -78,12 +81,11 @@ void inserir(FILE* file){
     else{
         fseek(file, 0, 2);
 	}
-      
-
+  
     //Escreve registro no arquivo
 	fwrite(&lpost, sizeof(post), 1, file);
 }
-// 3)
+// 3)LÃª todos os registros no arquivo. E mostra na tela.
 void listar(FILE* file){
 	post lpost;
 	fseek(file, posicaoRRN(0), 0);
@@ -99,7 +101,7 @@ void listar(FILE* file){
 		RRN++;
 	}
 }
-// 5)
+// 5)Permite a busca de posts que contem o campo user.
 void buscarUser(FILE* file){
 	post lpost;
 	char find[50];
@@ -135,7 +137,7 @@ void buscarUser(FILE* file){
 	else
 	    printf("\nRegistro nao encontrado\n");
 }
-// 4)
+// 4)Permite a busca de um post dado o RRN
 void buscarRRN(FILE* file){
 	post lpost;
 
@@ -146,17 +148,16 @@ void buscarRRN(FILE* file){
 	printf("\n\nInsira o RRN para buscar\n");
 	scanf("%d", &find);
 
-
     //Usa o RRN para dar um seek no arquivo e localizar o registro em questão
 	fseek(file, posicaoRRN(find), 0);
 
-	//Se a busca encontrou usuário, imprime. Senão, mostra mensagem de que não encontrou
+	//Se a busca encontrou usuï¿½rio, imprime. Senï¿½o, mostra mensagem de que nï¿½o encontrou
 	if(fread(&lpost, sizeof(post), 1, file) > 0)
 		printPost(lpost, find);
 	else
 	    printf("\nRegistro nao encontrado\n");
 }
-
+// 6) Permite a remoÃ§Ã£o do registro dado o RRN
 void remover(FILE* file){
 	post lpost;
 	fseek(file, 0, 0);
@@ -177,7 +178,7 @@ void remover(FILE* file){
 
 	//Se a busca encontrou usuário, remove. Senão, mostra mensagem de que não encontrou
 	if(fread(&lpost, sizeof(post), 1, file) > 0){
-		//Marca usuário com simbolo especial para informar remoção
+		//Marca usuï¿½rio com simbolo especial para informar remoï¿½ï¿½o
 	    strcpy(lpost.user, "*");
 
 	    //Armazena valor atual da dispo no registro e atualiza topo da dispo
@@ -207,8 +208,9 @@ int posicaoRRN(int rrn){
 	return ((rrn * sizeof(post)) + sizeof(dispo));
 }
 
+//FunÃ§Ã£o para mostrar o post na tela.
 void printPost(post lpost, int RRN){
-	if(strcmp(lpost.user, "*") != 0){ //Se não está removido
+	if(strcmp(lpost.user, "*") != 0){ //Se nï¿½o estï¿½ removido
 		printf("\n***** Registro %d *****\n", RRN);
 		printf("Texto: %s\n", lpost.text);
 		printf("Usuario: %s\n", lpost.user);
