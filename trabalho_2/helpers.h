@@ -35,6 +35,18 @@ char* le_texto(const char *titulo) {
   return saida;
 }
 
+char le_option(const char *titulo) {
+  char saida;
+
+  if(strlen(titulo) > 0) {
+    printf("\n%s\n", titulo);
+  }
+
+  limpa_buffer(stdin);
+  saida = getchar();
+  return saida;
+}
+
 char* le_texto_arquivo(FILE *file) {
   char buffer[255];
   int cont = -1;

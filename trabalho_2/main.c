@@ -16,14 +16,14 @@ void menu();
 void opcao(int);
 
 int main() {
-  int op;
+  char op;
 
   do {
     limpa_tela();
     menu();
-    scanf("%d", &op);
+    op = le_option("");
     opcao(op);
-  } while(op != 0);
+  } while(op != '0');
 
   return 0;
 }
@@ -32,11 +32,11 @@ void opcao(int op) {
   limpa_tela();
 
   switch(op){
-    case 1: inserir(); break;
-    case 2: listar(); break;
-    case 3: buscar(); break;
-    case 4: remover(); break;
-    case 0: printf("bye!"); break;
+    case '1': inserir(); break;
+    case '2': listar(); break;
+    case '3': buscar(); break;
+    case '4': remover(); break;
+    case '0': printf("bye!"); break;
     default: printf("Opcao invalida!\n");
  }
 }

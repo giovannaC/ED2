@@ -13,7 +13,7 @@ typedef struct Post{
 
 long post_tamanho(Post);
 int post_endereco(FILE*, long);
-Post* post_ler(int);
+Post* post_ler(FILE*);
 Post post_novo();
 
 Post post_novo() {
@@ -53,22 +53,13 @@ void post_gravar(Post post) {
   fclose(file);
 }
 
-Post* post_ler(int pos) {
-  FILE *file = arquivo("main.dat");
+Post* post_ler(FILE *file) {
   Post *post;
   long tamanho = 0;
-  long posicao = 0;
-  int indice = 0;
 
-  while (indice <= pos) {
-    fseek(file, posicao, 0);
-    fread(&tamanho, sizeof(long), 1, file);
-    if(feof(file)){
-      fclose(file);
-      return NULL;
-    }
-    posicao = posicao + tamanho;
-    indice++;
+  fread(&tamanho, sizeof(long), 1, file);
+  if(feof(file)){
+    return NULL;
   }
 
   post = (Post*)malloc(sizeof(Post));
@@ -79,7 +70,6 @@ Post* post_ler(int pos) {
   (*post).user = le_texto_arquivo(file);
   (*post).coordinates = le_texto_arquivo(file);
   (*post).language = le_texto_arquivo(file);
-  fclose(file);
 
   return post;
 }

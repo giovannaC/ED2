@@ -3,7 +3,7 @@
 void inserir() {
   Post post;
 
-  int op = 1;
+  char op = 1;
 
   do {
     post = post_novo();
@@ -11,34 +11,29 @@ void inserir() {
 
     post_imprimir(post);
     linha();
-    op = le_int("\n1 - CONTINUAR, 0 - MENU");
-  } while (op != 0);
+    op = le_option("CONTINUAR, 0 - MENU");
+  } while (op != '0');
 }
 
 void listar() {
-  int op = 1;
-  int indice = 0;
+  char op = 1;
+  FILE *file = arquivo("main.dat");
   Post *post;
 
   do {
-    post = post_ler(indice);
+    post = post_ler(file);
     limpa_tela();
     if (post != NULL) {
       post_imprimir(*post);
       linha();
+      op = le_option("PROXIMO, 0 - MENU");
     } else {
       titulo("FIM DO ARQUIVO");
+      le_option("");
     }
+  } while (post != NULL && op != '0');
 
-    op = le_int("\n1 - ANTERIOR, 2 - PROXIMO 0 - MENU");
-    if(op == 1 && indice > 0) {
-      indice--;
-    }
-
-    if(op == 2 && post!= NULL) {
-      indice++;
-    }
-  } while (op != 0);
+  fclose(file);
 }
 
 void buscar() {
