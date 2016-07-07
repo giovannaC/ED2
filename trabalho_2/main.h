@@ -2,23 +2,43 @@
 
 void inserir() {
   Post post;
-  FILE *file = arquivo("main.dat");
+
   int op = 1;
 
   do {
-    post = novo_post();
-    imprime_post(post);
-    grava_post(post, file);
+    post = post_novo();
+    post_gravar(post);
+
+    post_imprimir(post);
     linha();
-    printf("%ld\n", post_size(post));
     op = le_int("\n1 - CONTINUAR, 0 - MENU");
   } while (op != 0);
-
-  fclose(file);
 }
 
 void listar() {
-  printf("listar\n");
+  int op = 1;
+  int indice = 0;
+  Post *post;
+
+  do {
+    post = post_ler(indice);
+    limpa_tela();
+    if (post != NULL) {
+      post_imprimir(*post);
+      linha();
+    } else {
+      titulo("FIM DO ARQUIVO");
+    }
+
+    op = le_int("\n1 - ANTERIOR, 2 - PROXIMO 0 - MENU");
+    if(op == 1 && indice > 0) {
+      indice--;
+    }
+
+    if(op == 2 && post!= NULL) {
+      indice++;
+    }
+  } while (op != 0);
 }
 
 void buscar() {

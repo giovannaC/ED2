@@ -35,6 +35,25 @@ char* le_texto(const char *titulo) {
   return saida;
 }
 
+char* le_texto_arquivo(FILE *file) {
+  char buffer[255];
+  int cont = -1;
+  int retorno;
+  char *saida = NULL;
+
+  limpa_buffer(file);
+
+  do {
+    cont ++;
+    retorno = fread(&buffer[cont], sizeof(char), 1, file);
+  } while(retorno !=EOF && buffer[cont] != '|' && cont <= 255);
+
+  buffer[cont] = '\0';
+  saida = (char*) malloc(strlen(buffer) + 1);
+  strcpy(saida, buffer);
+  return saida;
+}
+
 int le_int(const char *titulo) {
   int buffer;
 
