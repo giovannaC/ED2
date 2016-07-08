@@ -35,7 +35,7 @@ char* le_texto(const char *titulo) {
   return saida;
 }
 
-char le_option(const char *titulo) {
+char le_opcao(const char *titulo) {
   char saida;
 
   if(strlen(titulo) > 0) {
@@ -94,7 +94,6 @@ void linha() {
 }
 
 void titulo(const char *titulo) {
-  limpa_tela();
   linha();
   printf("\n%s\n", titulo);
   linha();

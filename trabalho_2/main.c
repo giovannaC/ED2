@@ -21,7 +21,7 @@ int main() {
   do {
     limpa_tela();
     menu();
-    op = le_option("");
+    op = le_opcao("");
     opcao(op);
   } while(op != '0');
 
@@ -38,7 +38,7 @@ void opcao(int op) {
     case '4': remover(); break;
     case '0': printf("bye!"); break;
     default: printf("Opcao invalida!\n");
- }
+  }
 }
 
 void menu() {

@@ -18,6 +18,8 @@ Post post_novo();
 
 Post post_novo() {
   Post post;
+
+  limpa_tela();
   titulo("Inserindo post");
   post.text = le_texto("TEXT");
   post.user = le_texto("\nUSER");
@@ -25,7 +27,7 @@ Post post_novo() {
   post.like_count = le_int("\nLIKE_COUNT");
   post.language = le_texto("\nLANGUAGE");
   post.share_count = le_int("\nSHARE_COUNT");
-  post.views_count = le_long("\nVIEWS_COUNT");
+  post.views_count = labs(le_long("\nVIEWS_COUNT"));
 
   return post;
 };
@@ -71,6 +73,10 @@ Post* post_ler(FILE *file) {
   (*post).coordinates = le_texto_arquivo(file);
   (*post).language = le_texto_arquivo(file);
 
+  if((*post).views_count < 0) {
+    post = post_ler(file);
+  }
+
   return post;
 }
 
@@ -93,8 +99,16 @@ long post_tamanho(Post post) {
   return tamanho;
 }
 
-void post_imprimir(Post post) {
-  titulo("POST");
+void post_imprimir(Post post, int index) {
+  char buffer[10];
+
+  if (index > 0) {
+    sprintf(buffer, "POST - %d", index);
+    titulo(buffer);
+  }
+  else {
+    titulo("POST");
+  }
   printf("TEXT:\t\t %s\n", post.text);
   printf("USER:\t\t %s\n", post.user);
   printf("COORDINATES:\t %s\n", post.coordinates);
